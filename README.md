@@ -1,30 +1,239 @@
-# Student company matching app
+# 学生企業マッチングシステム
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+学生の得意分野と企業の募集条件を自動でマッチングし、最適な就職先を見つけるためのWebアプリケーションです。
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/bonginkan-projects/student-company-matching)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/Dyz5UCc9nOw)
+## 🌟 主な機能
 
-## Overview
+### 👨‍💼 管理者機能
+- **ダッシュボード**: システム全体の統計情報とKPI表示
+- **学生管理**: 学生プロフィールの閲覧・管理・検索
+- **企業管理**: 企業情報の閲覧・管理・検索
+- **マッチング管理**: 既存のマッチング結果の確認・承認・拒否
+- **マッチング実行**: AIベースの自動マッチングアルゴリズム実行
+- **レポート機能**: 分野別統計、月別トレンド、企業別統計の分析
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+### 👨‍🎓 学生機能
+- **マイページ**: プロフィール情報の表示・編集
+- **マッチング結果**: 自分にマッチした企業ポジションの確認
+- **企業情報閲覧**: マッチした企業の詳細情報表示
 
-## Deployment
+### 🏢 企業機能
+- **企業ページ**: 企業プロフィールの表示・管理
+- **募集ポジション管理**: ポジションの作成・編集・管理
+- **候補学生確認**: マッチした学生の詳細情報とスコア表示
 
-Your project is live at:
+## 🛠 技術スタック
 
-**[https://vercel.com/bonginkan-projects/student-company-matching](https://vercel.com/bonginkan-projects/student-company-matching)**
+- **フロントエンド**: Next.js 15, React, TypeScript
+- **スタイリング**: Tailwind CSS, shadcn/ui
+- **バックエンド**: Supabase (PostgreSQL)
+- **認証**: Supabase Auth
+- **デプロイ**: Vercel
 
-## Build your app
+## 📊 データベース構造
 
-Continue building your app on:
+### 主要テーブル
+- `users`: ユーザー基本情報（認証情報、ロール）
+- `students`: 学生プロフィール（名前、得意分野、生年月日等）
+- `companies`: 企業情報（企業名、業種、所在地等）
+- `positions`: 募集ポジション（タイトル、必須スキル、期間等）
+- `matches`: マッチング結果（学生-ポジション、スコア、ステータス）
+- `notifications`: 通知情報
+- `match_rules`: マッチングルール設定
 
-**[https://v0.dev/chat/projects/Dyz5UCc9nOw](https://v0.dev/chat/projects/Dyz5UCc9nOw)**
+## 🎯 マッチングアルゴリズム
 
-## How It Works
+### スコア算出方法
+1. **得意分野マッチング (70%)**: 学生の得意分野と募集スキルの完全一致
+2. **関連スキルボーナス (40%)**: 関連性の高いスキルへのボーナス点
+3. **ランダム要素 (30%)**: 多様性を保つためのランダム要素
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+### 対応分野
+- Webフロントエンド
+- バックエンド開発
+- データサイエンス
+- UI/UXデザイン
+- 機械学習
+- モバイルアプリ開発
+- クラウドインフラ
+- ゲーム開発
+- データベース設計
+- セキュリティ
+- 人工知能
+- DevOps
+
+## 🏢 サンプル企業データ
+
+### IT・テクノロジー系
+- テックイノベーション株式会社
+- デジタルソリューションズ
+- クラウドワークス株式会社
+- AIテクノロジーズ
+- サイバーセキュリティ株式会社
+
+### ゲーム・エンターテイメント系
+- ゲームスタジオ東京
+- エンターテイメントラボ
+
+### 金融・フィンテック系
+- フィンテックイノベーション
+- デジタルバンキング株式会社
+
+### ヘルスケア・バイオテック系
+- メディカルテック株式会社
+- バイオイノベーション
+
+### 教育・EdTech系
+- エデュテック株式会社
+- ラーニングプラットフォーム
+
+### その他多数の業界をカバー
+
+## 🚀 セットアップ手順
+
+### 1. 環境変数の設定
+\`\`\`bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+\`\`\`
+
+### 2. データベースセットアップ
+以下のSQLスクリプトを順番に実行：
+
+\`\`\`bash
+# 1. テーブル作成
+scripts/01-create-tables-fixed.sql
+
+# 2. 認証統合設定
+scripts/02-setup-auth-integration.sql
+
+# 3. RLSポリシー設定
+scripts/03-enable-rls-policies.sql
+
+# 4. サンプルデータ投入
+scripts/04-seed-sample-data.sql
+
+# 5. ゲストユーザー追加
+scripts/05-add-guest-users.sql
+
+# 6. ダミー企業データ追加
+scripts/06-add-dummy-companies.sql
+\`\`\`
+
+### 3. 依存関係のインストール
+\`\`\`bash
+npm install
+\`\`\`
+
+### 4. 開発サーバー起動
+\`\`\`bash
+npm run dev
+\`\`\`
+
+## 🔐 認証システム
+
+### 通常ログイン
+- Supabase Authを使用した安全な認証
+- メールアドレス・パスワード認証
+
+### ゲストモード（開発環境専用）
+開発環境では認証不要でシステムを体験可能：
+- **管理者ゲスト**: 全機能アクセス可能
+- **学生ゲスト**: 学生向け機能のみ
+- **企業ゲスト**: 企業向け機能のみ
+
+### テストアカウント
+\`\`\`
+メール: user+1750772130206@example.com
+パスワード: RegularUser2024!@#
+ロール: 学生
+\`\`\`
+
+## 👥 ユーザーロール
+
+### ADMIN（管理者）
+- システム全体の管理権限
+- 全データの閲覧・編集
+- マッチング実行・管理
+- レポート生成
+
+### STUDENT（学生）
+- 自分のプロフィール管理
+- マッチング結果の確認
+- 企業情報の閲覧
+
+### COMPANY（企業）
+- 企業プロフィール管理
+- 募集ポジションの作成・管理
+- マッチした学生の確認
+
+### SCHOOL（学校）
+- 学生・企業データの閲覧
+- 管理者に準じた権限
+
+## 📱 レスポンシブデザイン
+
+- モバイルファースト設計
+- タブレット・デスクトップ対応
+- 直感的なUI/UX
+
+## 🔒 セキュリティ機能
+
+- Row Level Security (RLS) による細かなアクセス制御
+- ロールベースの権限管理
+- SQLインジェクション対策
+- XSS対策
+
+## 📈 分析・レポート機能
+
+### ダッシュボード統計
+- 総学生数・企業数・マッチング数
+- 最近のマッチング活動
+- リアルタイム更新
+
+### 詳細レポート
+- 分野別学生数とマッチング成功率
+- 月別マッチングトレンド
+- 企業別統計
+- 最近のアクティビティ
+
+## 🎨 UI/UXの特徴
+
+- **shadcn/ui**: モダンで統一されたデザインシステム
+- **Tailwind CSS**: 高度にカスタマイズ可能なスタイリング
+- **Lucide Icons**: 一貫性のあるアイコンセット
+- **レスポンシブレイアウト**: あらゆるデバイスで最適な表示
+
+## 🔄 開発・運用
+
+### 開発環境
+- Hot Reload対応
+- TypeScript型安全性
+- ESLint/Prettier設定済み
+
+### 本番環境
+- Vercelでの自動デプロイ
+- Supabaseでのスケーラブルなバックエンド
+- CDN配信による高速化
+
+## 📝 今後の拡張予定
+
+- [ ] リアルタイム通知機能
+- [ ] CSVインポート/エクスポート機能
+- [ ] 高度な検索・フィルタリング
+- [ ] メール通知システム
+- [ ] API連携機能
+- [ ] モバイルアプリ対応
+
+## 🤝 貢献
+
+プルリクエストやイシューの報告を歓迎します。
+
+## 📄 ライセンス
+
+MIT License
+
+---
+
+**学生企業マッチングシステム** - 最適な出会いを創造するプラットフォーム
